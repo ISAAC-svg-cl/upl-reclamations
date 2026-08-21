@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 100" fill="none">
+  <!-- Emblème UPL Institutionnel -->
+  <g transform="translate(10, 10)">
+    <!-- Écu / Bouclier Académique -->
+    <path d="M40 0 L75 12 L75 48 C75 68 40 80 40 80 C40 80 5 68 5 48 L5 12 Z" fill="#3B82F6" stroke="#F59E0B" stroke-width="3"/>
+    
+    <!-- Livre Ouvert du Savoir -->
+    <path d="M22 36 C28 32 35 34 40 37 C45 34 52 32 58 36 L58 56 C52 52 45 54 40 57 C35 54 28 52 22 56 Z" fill="#0F172A" stroke="#F59E0B" stroke-width="1.5"/>
+    <line x1="40" y1="37" x2="40" y2="57" stroke="#60A5FA" stroke-width="1.5"/>
+    
+    <!-- Croix stylisée -->
+    <path d="M40 18 L40 32 M34 23 L46 23" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <circle cx="40" cy="23" r="1.5" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Typographie UPL pour Mode Sombre -->
+  <text x="100" y="44" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">UPL</text>
+  <text x="100" y="66" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#F59E0B" letter-spacing="0.5">RÉCLAMATIONS</text>
+  <text x="100" y="82" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="500" fill="#94A3B8">UNIVERSITÉ PROTESTANTE DE LUBUMBASHI</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="50%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#1E40AF" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F1F5F9" />
+    </linearGradient>
+    <!-- Text Paths -->
+    <path id="textCircleTop" d="M 50, 200 A 150, 150 0 1, 1 350, 200" fill="none" />
+    <path id="textCircleBottom" d="M 345, 205 A 145, 145 0 0, 1 55, 205" fill="none" />
+  </defs>
+
+  <!-- Outer Ring Shadow -->
+  <circle cx="200" cy="200" r="195" fill="#0B132B" opacity="0.15" />
+
+  <!-- Outer Ring Gold -->
+  <circle cx="200" cy="200" r="190" fill="url(#goldGrad)" stroke="#78350F" stroke-width="3" />
+
+  <!-- Outer Dark Blue Ring -->
+  <circle cx="200" cy="200" r="176" fill="url(#blueGrad)" stroke="#F59E0B" stroke-width="2.5" />
+
+  <!-- Circular Texts -->
+  <!-- Top Text: UNIVERSITE PROTESTANTE DE LUBUMBASHI -->
+  <text font-family="'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="19" fill="#FFFFFF" letter-spacing="2.2">
+    <textPath href="#textCircleTop" startOffset="50%" text-anchor="middle">
+      UNIVERSITÉ PROTESTANTE DE LUBUMBASHI
+    </textPath>
+  </text>
+
+  <!-- Bottom Text: VERITE ET LIBERTE • 2002 • -->
+  <text font-family="'Montserrat', 'Arial Black', sans-serif" font-weight="800" font-size="17" fill="#FDE047" letter-spacing="2.5">
+    <textPath href="#textCircleBottom" startOffset="50%" text-anchor="middle">
+      ★ VÉRITÉ ET LIBERTÉ ★ 2002 ★
+    </textPath>
+  </text>
+
+  <!-- Inner Gold Ring -->
+  <circle cx="200" cy="200" r="130" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-dasharray="8 4" />
+  <circle cx="200" cy="200" r="122" fill="#FFFFFF" stroke="#1E3A8A" stroke-width="3" />
+
+  <!-- Inner Shield / Emblem -->
+  <!-- Shield Background -->
+  <path d="M 140,120 L 260,120 C 260,120 265,210 200,260 C 135,210 140,120 140,120 Z" fill="url(#blueGrad)" stroke="#D97706" stroke-width="3" />
+
+  <!-- Open Bible in Shield -->
+  <!-- Left Page -->
+  <path d="M 200,195 C 180,185 160,186 148,192 L 148,225 C 160,219 180,218 200,228 Z" fill="#FFFFFF" stroke="#1E3A8A" stroke-width="1.5" />
+  <!-- Right Page -->
+  <path d="M 200,195 C 220,185 240,186 252,192 L 252,225 C 240,219 220,218 200,228 Z" fill="#FFFFFF" stroke="#1E3A8A" stroke-width="1.5" />
+  <!-- Book Lines -->
+  <line x1="156" y1="198" x2="192" y2="193" stroke="#94A3B8" stroke-width="1.5" />
+  <line x1="156" y1="205" x2="192" y2="200" stroke="#94A3B8" stroke-width="1.5" />
+  <line x1="156" y1="212" x2="192" y2="207" stroke="#94A3B8" stroke-width="1.5" />
+
+  <line x1="208" y1="193" x2="244" y2="198" stroke="#94A3B8" stroke-width="1.5" />
+  <line x1="208" y1="200" x2="244" y2="205" stroke="#94A3B8" stroke-width="1.5" />
+  <line x1="208" y1="207" x2="244" y2="212" stroke="#94A3B8" stroke-width="1.5" />
+
+  <!-- Christian Cross / Torch above Book -->
+  <!-- Cross -->
+  <rect x="195" y="132" width="10" height="42" rx="2" fill="#F59E0B" />
+  <rect x="183" y="142" width="34" height="8" rx="2" fill="#F59E0B" />
+
+  <!-- Torch Flame Glow -->
+  <path d="M 200,126 C 193,133 190,138 200,147 C 210,138 207,133 200,126 Z" fill="#EF4444" opacity="0.85" />
+  <path d="M 200,129 C 196,134 194,137 200,143 C 206,137 204,134 200,129 Z" fill="#FBBF24" />
+
+  <!-- Monogram UPL -->
+  <text x="200" y="295" font-family="'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="28" fill="#1E3A8A" text-anchor="middle" letter-spacing="4">
+    UPL
+  </text>
+  
+  <text x="200" y="312" font-family="'Montserrat', sans-serif" font-weight="700" font-size="11" fill="#D97706" text-anchor="middle" letter-spacing="1.5">
+    LUBUMBASHI — RDC
+  </text>
+</svg>

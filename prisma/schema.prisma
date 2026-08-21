@@ -1,0 +1,270 @@
+// Prisma Schema pour UPL Réclamations - Université Protestante de Lubumbashi
+// Configuré pour SQLite en développement local autonome et compatible PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  matricule    String?   @unique // Numéro matricule UPL (obligatoire pour étudiants)
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  avatar       String?
+  role         String    @default("STUDENT") // STUDENT, STAFF, ADMIN
+  isActive     Boolean   @default(true)
+  
+  // Relations
+  studentProfile   StudentProfile?
+  serviceId        String?
+  service          Service?          @relation(fields: [serviceId], references: [id])
+  facultyId        String?
+  faculty          Faculty?          @relation(fields: [facultyId], references: [id])
+  
+  complaintsSubmitted Complaint[]      @relation("StudentComplaints")
+  responsesAuthored   ComplaintResponse[]
+  historyActions      ComplaintHistory[]
+  notifications       Notification[]
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([role])
+  @@index([matricule])
+  @@index([email])
+}
+
+model StudentProfile {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  promotionId  String?
+  promotion    Promotion? @relation(fields: [promotionId], references: [id])
+  
+  academicYear String    @default("2025-2026")
+  currentLevel String?   // Ex: L1, L2, L3, M1, M2
+  
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Faculty {
+  id          String       @id @default(uuid())
+  name        String       @unique // Ex: "Faculté des Sciences Informatiques"
+  code        String       @unique // Ex: "FSI"
+  description String?
+  isActive    Boolean      @default(true)
+  
+  departments Department[]
+  users       User[]
+  complaints  Complaint[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Department {
+  id          String      @id @default(uuid())
+  facultyId   String
+  faculty     Faculty     @relation(fields: [facultyId], references: [id], onDelete: Cascade)
+  name        String      // Ex: "Génie Logiciel & Systèmes d'Information"
+  code        String      // Ex: "GLSI"
+  description String?
+  isActive    Boolean     @default(true)
+  
+  programs    Program[]
+  complaints  Complaint[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([facultyId, code])
+}
+
+model Program {
+  id           String      @id @default(uuid())
+  departmentId String
+  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  name         String      // Ex: "Licence en Informatique"
+  code         String
+  isActive     Boolean     @default(true)
+  
+  promotions   Promotion[]
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Promotion {
+  id          String           @id @default(uuid())
+  programId   String
+  program     Program          @relation(fields: [programId], references: [id], onDelete: Cascade)
+  name        String           // Ex: "L3 Informatique LMD - 2025/2026"
+  yearLevel   String           // Ex: "L3"
+  isActive    Boolean          @default(true)
+  
+  students    StudentProfile[]
+  complaints  Complaint[]
+
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Service {
+  id          String              @id @default(uuid())
+  name        String              @unique // Ex: "Secrétariat Général Académique"
+  code        String              @unique // Ex: "SEC_ACAD"
+  email       String?
+  description String?
+  isActive    Boolean             @default(true)
+  
+  users       User[]
+  categories  ComplaintCategory[]
+  complaints  Complaint[]
+
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model ComplaintCategory {
+  id               String       @id @default(uuid())
+  name             String       @unique // Ex: "Notes et Résultats", "Frais Académiques", "Inscription"
+  code             String       @unique // Ex: "NOTES", "FRAIS", "INSCRIPTION"
+  description      String?
+  slaDays          Int          @default(5) // Délais SLA estimé en jours ouvrés
+  isActive         Boolean      @default(true)
+  
+  defaultServiceId String?
+  defaultService   Service?     @relation(fields: [defaultServiceId], references: [id])
+  
+  complaints       Complaint[]
+
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Complaint {
+  id           String            @id @default(uuid())
+  reference    String            @unique // Ex: "UPL-REC-2026-000001"
+  subject      String
+  description  String
+  priority     String            @default("NORMAL") // LOW, NORMAL, HIGH, URGENT
+  status       String            @default("NEW")    // NEW, IN_PROGRESS, WAITING_INFO, FORWARDED, RESOLVED, CLOSED, REJECTED
+  
+  // Relations d'appartenance
+  studentId    String
+  student      User              @relation("StudentComplaints", fields: [studentId], references: [id], onDelete: Restrict)
+  
+  categoryId   String
+  category     ComplaintCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  
+  serviceId    String?
+  service      Service?          @relation(fields: [serviceId], references: [id])
+  
+  facultyId    String?
+  faculty      Faculty?          @relation(fields: [facultyId], references: [id])
+  
+  departmentId String?
+  department   Department?       @relation(fields: [departmentId], references: [id])
+  
+  promotionId  String?
+  promotion    Promotion?        @relation(fields: [promotionId], references: [id])
+  
+  resolvedAt   DateTime?
+  closedAt     DateTime?
+  
+  responses    ComplaintResponse[]
+  history      ComplaintHistory[]
+  attachments  Attachment[]
+
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([status])
+  @@index([priority])
+  @@index([reference])
+  @@index([studentId])
+  @@index([serviceId])
+  @@index([facultyId])
+  @@index([createdAt])
+}
+
+model ComplaintResponse {
+  id          String       @id @default(uuid())
+  complaintId String
+  complaint   Complaint    @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  
+  authorId    String
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  
+  message     String
+  isInternal  Boolean      @default(false) // Note interne pour le personnel ou réponse visible par l'étudiant
+  
+  attachments Attachment[]
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([complaintId])
+}
+
+model ComplaintHistory {
+  id          String           @id @default(uuid())
+  complaintId String
+  complaint   Complaint        @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  
+  authorId    String
+  author      User             @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  
+  fromStatus  String?
+  toStatus    String
+  reason      String?          // Motif obligatoire pour rejet ou clôture
+  
+  createdAt   DateTime         @default(now())
+
+  @@index([complaintId])
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title     String
+  message   String
+  type      String           @default("SYSTEM")
+  link      String?
+  isRead    Boolean          @default(false)
+  
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+}
+
+model Attachment {
+  id           String             @id @default(uuid())
+  fileName     String
+  fileUrl      String
+  fileSize     Int                // En octets
+  mimeType     String             // Ex: application/pdf, image/jpeg, image/png
+  
+  complaintId  String?
+  complaint    Complaint?         @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  
+  responseId   String?
+  response     ComplaintResponse? @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime           @default(now())
+
+  @@index([complaintId])
+  @@index([responseId])
+}
