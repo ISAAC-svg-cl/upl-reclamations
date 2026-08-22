@@ -56,7 +56,7 @@ export const UPL_INSTITUTION_CONFIG: InstitutionalConfig = {
   name: "Université Protestante de Lubumbashi",
   shortName: "UPL",
   appFunctionalName: "UPL Réclamations",
-  tagline: "Plateforme numérique de gestion et de suivi des réclamations étudiantes",
+  tagline: "Plateforme numérique de gestion et de suivi des réclamations des étudiants",
   motto: "Vérité et liberté",
   description: "Système institutionnel sécurisé de soumission, d'instruction et de traçabilité des réclamations académiques et administratives à l'UPL.",
   address: {

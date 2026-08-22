@@ -44,7 +44,7 @@ export default function HomePage() {
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight">
               Gestion et Suivi Centralisé des{" "}
               <span className="text-primary underline decoration-secondary decoration-4 underline-offset-4">
-                Réclamations Étudiantes
+                Réclamations des Etudiants
               </span>
             </h1>
 
