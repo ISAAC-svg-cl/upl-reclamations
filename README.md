@@ -1,4 +1,4 @@
-# UPL Réclamations — Plateforme Web de Gestion des Réclamations Étudiantes
+# UPL Réclamations — Plateforme Web de Gestion des Réclamations des Étudiants
 
 > **Projet de Fin d'Études (PFE) en Informatique**  
 > **Institution :** Université Protestante de Lubumbashi (UPL)  

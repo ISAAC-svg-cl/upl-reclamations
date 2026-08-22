@@ -15,7 +15,7 @@ export default async function StaffNotificationsPage() {
       <div>
         <h1 className="text-2xl font-black text-foreground">Notifications du Service</h1>
         <p className="text-xs sm:text-sm text-muted-foreground">
-          Alertes d'assignation, réponses étudiantes et transferts de dossiers
+          Alertes d'assignation, réponses des étudiants et transferts de dossiers
         </p>
       </div>
 
