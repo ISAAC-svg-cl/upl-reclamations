@@ -12,11 +12,11 @@ export function Footer() {
           {/* Institution Presentation */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="relative h-11 w-11 flex items-center justify-center rounded-xl bg-white shadow-xs border p-1 shrink-0 overflow-hidden">
+              <div className="relative h-11 w-11 flex items-center justify-center rounded-full bg-white shadow-xs border p-0.5 shrink-0 overflow-hidden">
                 <img
-                  src="/branding/logo.png"
+                  src="/branding/logo-upl-officiel.png"
                   alt="Logo UPL"
-                  className="object-contain w-full h-full"
+                  className="object-contain w-full h-full rounded-full"
                 />
               </div>
               <span className="font-bold text-lg text-primary">

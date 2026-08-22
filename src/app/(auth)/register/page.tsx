@@ -11,19 +11,21 @@ export default async function RegisterPage() {
   const formattedPromos = promotions.map((p) => ({
     id: p.id,
     name: p.name,
+    yearLevel: p.yearLevel,
+    filiere: p.program.department.name,
     facultyName: p.program.department.faculty.name,
   }));
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-muted/20">
+    <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
       <div className="w-full max-w-lg space-y-6">
         <div className="text-center space-y-3">
           <Link href="/" className="inline-flex flex-col items-center group">
-            <div className="relative h-20 w-20 p-2 rounded-2xl bg-white shadow-lg border border-border flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+            <div className="relative h-24 w-24 p-0.5 rounded-full bg-white shadow-xl border border-border flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
               <img
-                src="/branding/logo.png"
+                src="/branding/logo-upl-officiel.png"
                 alt="Logo Officiel Université Protestante de Lubumbashi"
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full rounded-full"
               />
             </div>
             <div className="mt-3 space-y-1">

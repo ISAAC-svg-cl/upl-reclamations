@@ -22,11 +22,11 @@ export default async function StudentDashboardPage() {
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-linear-to-r from-primary/15 via-primary/5 to-background border border-primary/20">
         <div className="flex items-center gap-4">
-          <div className="relative h-16 w-16 rounded-2xl bg-white shadow-md border p-1.5 shrink-0 hidden sm:flex items-center justify-center overflow-hidden">
+          <div className="relative h-16 w-16 rounded-full bg-white shadow-md border p-0.5 shrink-0 hidden sm:flex items-center justify-center overflow-hidden">
             <img
-              src="/branding/logo.png"
+              src="/branding/logo-upl-officiel.png"
               alt="Logo UPL"
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full rounded-full"
             />
           </div>
           <div className="space-y-1">

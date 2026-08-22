@@ -65,11 +65,11 @@ export function Sidebar({ user }: SidebarProps) {
     <aside className="hidden md:flex flex-col w-64 border-r bg-card/60 backdrop-blur-xs min-h-[calc(100vh-4rem)] p-4 space-y-6">
       {/* Mini Institution Header */}
       <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 border border-border/60">
-        <div className="relative h-9 w-9 rounded-lg bg-white p-0.5 shadow-xs border flex items-center justify-center shrink-0 overflow-hidden">
+        <div className="relative h-9 w-9 rounded-full bg-white p-0.5 shadow-xs border flex items-center justify-center shrink-0 overflow-hidden">
           <img
-            src="/branding/logo.png"
+            src="/branding/logo-upl-officiel.png"
             alt="Logo UPL"
-            className="object-contain w-full h-full"
+            className="object-contain w-full h-full rounded-full"
           />
         </div>
         <div className="min-w-0">

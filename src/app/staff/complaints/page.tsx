@@ -4,6 +4,8 @@ import { ComplaintService } from "@/services/complaint.service";
 import { AcademicService } from "@/services/academic.service";
 import { StatusBadge } from "@/components/complaints/StatusBadge";
 import { PriorityBadge } from "@/components/complaints/PriorityBadge";
+import { SlaBadge } from "@/components/complaints/SlaBadge";
+import { ExportComplaintsButton } from "@/components/complaints/ExportComplaintsButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,15 +30,35 @@ export default async function StaffComplaintsPage({
     priority: params.priority,
   });
 
+  const exportData = complaints.map((c) => ({
+    reference: c.reference,
+    createdAt: c.createdAt,
+    studentName: `${c.student.lastName} ${c.student.firstName}`,
+    matricule: c.student.matricule || "N/A",
+    filiere: "Sciences Informatiques",
+    promotion: "BAC",
+    category: c.category.name,
+    priority: c.priority,
+    status: c.status,
+    subject: c.subject,
+    service: c.service?.name || user.serviceName || "Décanat FSI",
+  }));
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-foreground">
-          File des Réclamations — {user.serviceName || "Service"}
-        </h1>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          {total} dossier(s) assigné(s) à votre entité pour instruction et traitement
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-foreground">
+            File des Réclamations — {user.serviceName || "Service"}
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            {total} dossier(s) assigné(s) à votre entité pour instruction et traitement
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <ExportComplaintsButton data={exportData} filename="dossiers_decanat_fsi.csv" />
+        </div>
       </div>
 
       {/* Filter Bar */}
@@ -150,6 +172,11 @@ export default async function StaffComplaintsPage({
                   <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0">
                     <StatusBadge status={comp.status} />
                     <PriorityBadge priority={comp.priority} />
+                    <SlaBadge
+                      createdAt={comp.createdAt}
+                      status={comp.status}
+                      resolvedAt={comp.resolvedAt}
+                    />
                   </div>
                 </div>
               </Card>

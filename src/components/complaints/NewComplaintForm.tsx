@@ -201,7 +201,7 @@ export function NewComplaintForm({ categories }: NewComplaintFormProps) {
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-foreground">
-              Objet synthétique de la réclamation * :
+              Objet synthétique de la réclamation :
             </label>
             <Input
               placeholder="Ex: Omission de note en Génie Logiciel - Session Février"
@@ -213,7 +213,7 @@ export function NewComplaintForm({ categories }: NewComplaintFormProps) {
 
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-foreground">
-              Description détaillée et circonstances * :
+              Description détaillée et circonstances :
             </label>
             <Textarea
               placeholder="Exposez clairement les faits : nom du cours, enseignant, date de passation, numéro de bordereau bancaire, etc."

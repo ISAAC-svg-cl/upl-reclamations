@@ -18,10 +18,10 @@ export const registerStudentSchema = z
     matricule: z
       .string()
       .min(4, "Le matricule est obligatoire pour les étudiants UPL")
-      .regex(/^[A-Za-z0-9\/-]+$/, "Format de matricule non valide"),
-    email: z.string().email("Adresse email non valide"),
+      .regex(/^[A-Za-z0-9\/-@_.]+$/, "Format de matricule non valide"),
+    email: z.string().email("Adresse email non valide").optional(),
     phone: z.string().optional(),
-    promotionId: z.string().min(1, "Veuillez sélectionner votre promotion/classe"),
+    promotionId: z.string().min(1, "Veuillez sélectionner votre promotion"),
     password: z
       .string()
       .min(6, "Le mot de passe doit comporter au moins 6 caractères"),

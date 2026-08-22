@@ -90,6 +90,7 @@ export class StatsService {
       urgentComplaints,
       categories,
       faculties,
+      departments,
       statuses,
     ] = await Promise.all([
       prisma.user.count(),
@@ -105,6 +106,11 @@ export class StatsService {
         },
       }),
       prisma.faculty.findMany({
+        include: {
+          _count: { select: { complaints: true } },
+        },
+      }),
+      prisma.department.findMany({
         include: {
           _count: { select: { complaints: true } },
         },
@@ -129,6 +135,12 @@ export class StatsService {
       count: fac._count.complaints,
     }));
 
+    const departmentDistribution = departments.map((dept) => ({
+      name: dept.code,
+      fullName: dept.name,
+      count: dept._count.complaints,
+    }));
+
     const statusDistribution = statuses.map((st) => ({
       status: st.status,
       count: st._count.status,
@@ -145,6 +157,7 @@ export class StatsService {
       resolutionRate,
       categoryDistribution,
       facultyDistribution,
+      departmentDistribution,
       statusDistribution,
     };
   }

@@ -4,6 +4,7 @@ import { ComplaintService } from "@/services/complaint.service";
 import { AcademicService } from "@/services/academic.service";
 import { StatusBadge } from "@/components/complaints/StatusBadge";
 import { PriorityBadge } from "@/components/complaints/PriorityBadge";
+import { SlaBadge } from "@/components/complaints/SlaBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -162,6 +163,11 @@ export default async function StudentComplaintsPage({
                   <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0">
                     <StatusBadge status={comp.status} />
                     <PriorityBadge priority={comp.priority} />
+                    <SlaBadge
+                      createdAt={comp.createdAt}
+                      status={comp.status}
+                      resolvedAt={comp.resolvedAt}
+                    />
                   </div>
                 </div>
               </Card>

@@ -83,11 +83,11 @@ export function AnalyticsCharts({
         </CardContent>
       </Card>
 
-      {/* Répartition par Faculté */}
+      {/* Répartition par Filière */}
       <Card className="shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-bold">
-            Volume de Réclamations par Faculté
+            Volume de Réclamations par Filière
           </CardTitle>
         </CardHeader>
         <CardContent className="h-72">

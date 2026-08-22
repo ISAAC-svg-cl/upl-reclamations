@@ -38,23 +38,17 @@ export default function LoginPage() {
     }
   };
 
-  const setTestAccount = (userIdent: string, pass: string) => {
-    setIdentifier(userIdent);
-    setPassword(pass);
-    setError(null);
-  };
-
   return (
-    <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-muted/20">
+    <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
       <div className="w-full max-w-md space-y-6">
         {/* Header Branding */}
         <div className="text-center space-y-3">
           <Link href="/" className="inline-flex flex-col items-center group">
-            <div className="relative h-20 w-20 p-2 rounded-2xl bg-white shadow-lg border border-border flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+            <div className="relative h-24 w-24 p-0.5 rounded-full bg-white shadow-xl border border-border flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
               <img
-                src="/branding/logo.png"
+                src="/branding/logo-upl-officiel.png"
                 alt="Logo Officiel Université Protestante de Lubumbashi"
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full rounded-full"
               />
             </div>
             <div className="mt-3 space-y-1">
@@ -79,7 +73,7 @@ export default function LoginPage() {
 
         {/* Login Form */}
         <Card className="shadow-xl border-border/80">
-          <CardHeader className="space-y-1 pb-4 border-b bg-muted/20">
+          <CardHeader className="space-y-1 pb-4 border-b bg-muted/20 text-center">
             <CardTitle className="text-lg font-bold">Espace de Connexion</CardTitle>
             <CardDescription className="text-xs">
               Saisissez votre matricule étudiant ou votre email institutionnel UPL
@@ -97,15 +91,15 @@ export default function LoginPage() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-foreground">
-                  Email institutionnel ou Matricule UPL
+                  Matricule
                 </label>
                 <div className="relative">
                   <Input
-                    placeholder="ex: john.kasongo@etudiant.upl-rdc.net ou UPL/2023/0481"
+                    placeholder="2024022105"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     required
-                    className="pl-9 text-xs sm:text-sm"
+                    className="pl-9 text-xs sm:text-sm placeholder:text-muted-foreground/60"
                   />
                   <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                 </div>
@@ -146,47 +140,6 @@ export default function LoginPage() {
             </CardFooter>
           </form>
         </Card>
-
-        {/* Quick Demo Accès PFE (Décanat & Admin) */}
-        <div className="p-4 rounded-xl border bg-card/60 text-xs space-y-2">
-          <p className="font-bold text-foreground flex items-center gap-1.5">
-            <Shield className="h-4 w-4 text-primary" />
-            Comptes Administrateurs & Décanat :
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-            <button
-              type="button"
-              onClick={() => setTestAccount("decanat.fsi@upl-rdc.net", "staff123")}
-              className="p-2.5 rounded-lg border bg-background hover:border-primary text-left transition-colors flex items-center justify-between group"
-            >
-              <div>
-                <p className="font-bold text-xs text-blue-700 dark:text-blue-400 group-hover:text-primary transition-colors">
-                  Décanat FSI
-                </p>
-                <p className="text-[10px] text-muted-foreground">decanat.fsi@upl-rdc.net</p>
-              </div>
-              <span className="text-[10px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded">
-                Staff
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setTestAccount("admin@upl-rdc.net", "admin123")}
-              className="p-2.5 rounded-lg border bg-background hover:border-primary text-left transition-colors flex items-center justify-between group"
-            >
-              <div>
-                <p className="font-bold text-xs text-purple-700 dark:text-purple-400 group-hover:text-primary transition-colors">
-                  Administrateur UPL
-                </p>
-                <p className="text-[10px] text-muted-foreground">admin@upl-rdc.net</p>
-              </div>
-              <span className="text-[10px] font-bold bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded">
-                Admin
-              </span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

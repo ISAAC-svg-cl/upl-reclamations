@@ -31,11 +31,11 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-linear-to-r from-purple-900/10 via-primary/5 to-background border border-purple-500/20">
         <div className="flex items-center gap-4">
-          <div className="relative h-16 w-16 rounded-2xl bg-white shadow-md border p-1.5 shrink-0 hidden sm:flex items-center justify-center overflow-hidden">
+          <div className="relative h-16 w-16 rounded-full bg-white shadow-md border p-0.5 shrink-0 hidden sm:flex items-center justify-center overflow-hidden">
             <img
-              src="/branding/logo.png"
+              src="/branding/logo-upl-officiel.png"
               alt="Logo UPL"
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full rounded-full"
             />
           </div>
           <div className="space-y-1">
@@ -71,7 +71,7 @@ export default async function AdminDashboardPage() {
         <MetricCard
           title="Total Réclamations"
           value={stats.totalComplaints}
-          subtitle="Toutes facultés confondues"
+          subtitle="Faculté des Sciences Informatiques"
           icon={FileText}
           variant="slate"
         />
@@ -104,7 +104,7 @@ export default async function AdminDashboardPage() {
         <AnalyticsCharts
           categoryData={stats.categoryDistribution}
           statusData={stats.statusDistribution}
-          facultyData={stats.facultyDistribution}
+          facultyData={stats.departmentDistribution}
         />
       </div>
 

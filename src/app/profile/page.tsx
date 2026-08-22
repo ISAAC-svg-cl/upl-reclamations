@@ -25,11 +25,11 @@ export default async function ProfilePage() {
         {/* Profile Card */}
         <Card className="md:col-span-1 shadow-xs border-primary/20 bg-primary/5">
           <CardHeader className="text-center pb-2">
-            <div className="relative h-20 w-20 rounded-2xl bg-white shadow-md border p-1.5 mx-auto flex items-center justify-center overflow-hidden">
+            <div className="relative h-20 w-20 rounded-full bg-white shadow-md border p-0.5 mx-auto flex items-center justify-center overflow-hidden">
               <img
-                src="/branding/logo.png"
+                src="/branding/logo-upl-officiel.png"
                 alt="Logo UPL"
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full rounded-full"
               />
             </div>
             <CardTitle className="text-base font-bold pt-3">{user.fullName}</CardTitle>
@@ -67,7 +67,7 @@ export default async function ProfilePage() {
 
             {user.promotionName && (
               <div className="p-2.5 rounded-lg bg-background border space-y-1">
-                <p className="text-muted-foreground font-medium">Promotion / Classe</p>
+                <p className="text-muted-foreground font-medium">Promotion</p>
                 <p className="font-medium text-foreground">{user.promotionName}</p>
               </div>
             )}

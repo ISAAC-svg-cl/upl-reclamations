@@ -12,6 +12,8 @@ import { AlertCircle, CheckCircle2, User, Mail, Lock, Phone, GraduationCap } fro
 interface PromoItem {
   id: string;
   name: string;
+  yearLevel: string;
+  filiere: string;
   facultyName: string;
 }
 
@@ -22,17 +24,34 @@ interface RegisterFormProps {
 export function RegisterForm({ promotions }: RegisterFormProps) {
   const router = useRouter();
 
+  // Liste unique des filières
+  const filieres = Array.from(new Set(promotions.map((p) => p.filiere)));
+  const defaultFiliere = filieres[0] || "Génie Logiciel";
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [matricule, setMatricule] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [promotionId, setPromotionId] = useState(promotions[0]?.id || "");
+  const [selectedFiliere, setSelectedFiliere] = useState(defaultFiliere);
+  
+  // Promotions de la filière sélectionnée
+  const availablePromos = promotions.filter((p) => p.filiere === selectedFiliere);
+  const [promotionId, setPromotionId] = useState(availablePromos[0]?.id || promotions[0]?.id || "");
+  
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Mettre à jour la promotion quand la filière change
+  const handleFiliereChange = (filiere: string) => {
+    setSelectedFiliere(filiere);
+    const matched = promotions.filter((p) => p.filiere === filiere);
+    if (matched.length > 0) {
+      setPromotionId(matched[0].id);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +67,6 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       matricule: matricule.trim(),
-      email: email.trim(),
       phone: phone.trim() || undefined,
       promotionId,
       password,
@@ -65,21 +83,12 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
     }
   };
 
-  const groupedPromotions = promotions.reduce<Record<string, PromoItem[]>>((acc, p) => {
-    const faculty = p.facultyName || "Autres filières";
-    if (!acc[faculty]) {
-      acc[faculty] = [];
-    }
-    acc[faculty].push(p);
-    return acc;
-  }, {});
-
   return (
     <Card className="shadow-lg border-border/80">
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-4 text-center">
         <CardTitle className="text-lg font-bold">Renseignements de l'étudiant</CardTitle>
         <CardDescription className="text-xs">
-          Veuillez renseigner vos coordonnées académiques exactes à l'UPL
+          Faculté des Sciences Informatiques — Coordonnées académiques
         </CardDescription>
       </CardHeader>
 
@@ -94,9 +103,9 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-semibold">Prénom(s) *</label>
+              <label className="text-xs font-semibold">Prénom(s)</label>
               <Input
-                placeholder="Ex: Edmond Isaac"
+                placeholder="Ex: ISAAC"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
@@ -104,9 +113,9 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-semibold">Nom de famille *</label>
+              <label className="text-xs font-semibold">Nom de famille</label>
               <Input
-                placeholder="Ex: NKUNA"
+                placeholder="Ex: EDMOND NKUNA"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
@@ -117,7 +126,7 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-semibold">Numéro Matricule UPL *</label>
+              <label className="text-xs font-semibold">Numéro Matricule UPL</label>
               <Input
                 placeholder="Ex: 2024022105"
                 value={matricule}
@@ -137,46 +146,51 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
             </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold">Email Institutionnel ou Personnel *</label>
-            <Input
-              type="email"
-              placeholder="edmond.nkuna@etudiant.upl-rdc.net"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="text-xs sm:text-sm"
-            />
-          </div>
+          {/* SÉPARATION FILIÈRE & PROMOTION */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-semibold flex items-center justify-between">
+                <span>Filière</span>
+              </label>
+              <select
+                value={selectedFiliere}
+                onChange={(e) => handleFiliereChange(e.target.value)}
+                required
+                className="w-full h-11 px-3 rounded-lg border border-input bg-background text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary font-medium"
+              >
+                {filieres.map((filiere) => (
+                  <option key={filiere} value={filiere} className="py-1">
+                    {filiere}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold flex items-center justify-between">
-              <span>Faculté & Filière UPL *</span>
-              <span className="text-[10px] text-muted-foreground font-normal">
-                {promotions.length} filières disponibles
-              </span>
-            </label>
-            <select
-              value={promotionId}
-              onChange={(e) => setPromotionId(e.target.value)}
-              required
-              className="w-full h-11 px-3 rounded-lg border border-input bg-background text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary font-medium"
-            >
-              {Object.entries(groupedPromotions).map(([faculty, list]) => (
-                <optgroup key={faculty} label={`🎓 ${faculty}`} className="font-bold text-primary">
-                  {list.map((p) => (
-                    <option key={p.id} value={p.id} className="font-normal text-foreground py-1">
-                      {p.name}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
+            <div className="space-y-1">
+              <label className="text-xs font-semibold flex items-center justify-between">
+                <span>Promotion</span>
+                <span className="text-[10px] text-muted-foreground font-normal">
+                  {availablePromos.length} niveaux
+                </span>
+              </label>
+              <select
+                value={promotionId}
+                onChange={(e) => setPromotionId(e.target.value)}
+                required
+                className="w-full h-11 px-3 rounded-lg border border-input bg-background text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary font-bold text-primary"
+              >
+                {availablePromos.map((p) => (
+                  <option key={p.id} value={p.id} className="py-1 font-semibold text-foreground">
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-semibold">Mot de passe *</label>
+              <label className="text-xs font-semibold">Mot de passe</label>
               <Input
                 type="password"
                 placeholder="••••••••"
@@ -187,7 +201,7 @@ export function RegisterForm({ promotions }: RegisterFormProps) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-semibold">Confirmer mot de passe *</label>
+              <label className="text-xs font-semibold">Confirmer mot de passe</label>
               <Input
                 type="password"
                 placeholder="••••••••"

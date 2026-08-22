@@ -4,6 +4,8 @@ import { ComplaintService } from "@/services/complaint.service";
 import { AcademicService } from "@/services/academic.service";
 import { StatusBadge } from "@/components/complaints/StatusBadge";
 import { PriorityBadge } from "@/components/complaints/PriorityBadge";
+import { SlaBadge } from "@/components/complaints/SlaBadge";
+import { ExportComplaintsButton } from "@/components/complaints/ExportComplaintsButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,6 +42,20 @@ export default async function AdminComplaintsPage({
     }),
   ]);
 
+  const exportData = complaints.map((c) => ({
+    reference: c.reference,
+    createdAt: c.createdAt,
+    studentName: `${c.student.lastName} ${c.student.firstName}`,
+    matricule: c.student.matricule || "N/A",
+    filiere: "Sciences Informatiques",
+    promotion: "BAC",
+    category: c.category.name,
+    priority: c.priority,
+    status: c.status,
+    subject: c.subject,
+    service: c.service?.name || "Non assigné",
+  }));
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -50,6 +66,10 @@ export default async function AdminComplaintsPage({
           <p className="text-xs sm:text-sm text-muted-foreground">
             {total} réclamation(s) enregistrée(s) dans le système institutionnel
           </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <ExportComplaintsButton data={exportData} filename="rapport_reclamations_upl.csv" />
         </div>
       </div>
 
@@ -185,6 +205,12 @@ export default async function AdminComplaintsPage({
                   <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0">
                     <StatusBadge status={comp.status} />
                     <PriorityBadge priority={comp.priority} />
+                    <SlaBadge
+                      createdAt={comp.createdAt}
+                      slaDays={comp.category.slaDays}
+                      status={comp.status}
+                      resolvedAt={comp.resolvedAt}
+                    />
                   </div>
                 </div>
               </Card>

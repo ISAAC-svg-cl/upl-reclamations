@@ -24,14 +24,29 @@ export async function loginAction(input: LoginInput) {
   try {
     const validated = loginSchema.parse(input);
 
-    const user = await prisma.user.findFirst({
+    const candidateUsers = await prisma.user.findMany({
       where: {
         OR: [
           { email: validated.identifier.toLowerCase() },
+          { email: validated.identifier },
           { matricule: validated.identifier },
+          { matricule: validated.identifier.toLowerCase() },
         ],
       },
     });
+
+    if (!candidateUsers || candidateUsers.length === 0) {
+      return { success: false, error: "Identifiant ou mot de passe incorrect." };
+    }
+
+    let user = null;
+    for (const candidate of candidateUsers) {
+      const isValid = await verifyPassword(validated.password, candidate.passwordHash);
+      if (isValid) {
+        user = candidate;
+        break;
+      }
+    }
 
     if (!user) {
       return { success: false, error: "Identifiant ou mot de passe incorrect." };
@@ -42,11 +57,6 @@ export async function loginAction(input: LoginInput) {
         success: false,
         error: "Votre compte est désactivé. Veuillez contacter l'administration de l'UPL.",
       };
-    }
-
-    const isValid = await verifyPassword(validated.password, user.passwordHash);
-    if (!isValid) {
-      return { success: false, error: "Identifiant ou mot de passe incorrect." };
     }
 
     const token = generateToken({ userId: user.id });
@@ -70,26 +80,31 @@ export async function registerStudentAction(input: RegisterStudentInput) {
   try {
     const validated = registerStudentSchema.parse(input);
 
+    // Déterminer l'email institutionnel automatique
+    const studentEmail = validated.email
+      ? validated.email.toLowerCase()
+      : `${validated.matricule.toLowerCase().replace(/[^a-z0-9]/g, "")}@etudiant.upl-univ.ac`;
+
     // Vérifier unicité email et matricule
     const existingEmail = await prisma.user.findUnique({
-      where: { email: validated.email.toLowerCase() },
+      where: { email: studentEmail },
     });
     if (existingEmail) {
-      return { success: false, error: "Cet email institutionnel est déjà enregistré." };
+      return { success: false, error: "Un compte avec cet identifiant/email existe déjà." };
     }
 
-    const existingMatricule = await prisma.user.findUnique({
-      where: { matricule: validated.matricule },
+    const existingMatricule = await prisma.user.findFirst({
+      where: { matricule: validated.matricule, role: "STUDENT" },
     });
     if (existingMatricule) {
-      return { success: false, error: "Ce numéro de matricule UPL est déjà utilisé." };
+      return { success: false, error: "Ce numéro de matricule UPL est déjà utilisé par un étudiant." };
     }
 
     const passwordHash = await hashPassword(validated.password);
 
     const user = await prisma.user.create({
       data: {
-        email: validated.email.toLowerCase(),
+        email: studentEmail,
         matricule: validated.matricule,
         firstName: validated.firstName,
         lastName: validated.lastName,

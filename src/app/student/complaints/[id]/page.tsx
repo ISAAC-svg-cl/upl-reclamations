@@ -6,6 +6,8 @@ import { StatusBadge } from "@/components/complaints/StatusBadge";
 import { PriorityBadge } from "@/components/complaints/PriorityBadge";
 import { TimelineHistory } from "@/components/complaints/TimelineHistory";
 import { ResponseThread } from "@/components/complaints/ResponseThread";
+import { ComplaintReceiptModal } from "@/components/complaints/ComplaintReceiptModal";
+import { SlaBadge } from "@/components/complaints/SlaBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
@@ -41,7 +43,7 @@ export default async function StudentComplaintDetailPage({
             </Button>
           </Link>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono text-sm font-black text-primary">
                 {complaint.reference}
               </span>
@@ -49,14 +51,21 @@ export default async function StudentComplaintDetailPage({
               <span className="text-xs font-semibold text-muted-foreground">
                 {complaint.category.name}
               </span>
+              <SlaBadge
+                createdAt={complaint.createdAt}
+                slaDays={complaint.category.slaDays}
+                status={complaint.status}
+                resolvedAt={complaint.resolvedAt}
+              />
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-foreground">
+            <h1 className="text-xl sm:text-2xl font-black text-foreground mt-0.5">
               {complaint.subject}
             </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <ComplaintReceiptModal complaint={complaint as any} />
           <PriorityBadge priority={complaint.priority} />
           <StatusBadge status={complaint.status} />
         </div>

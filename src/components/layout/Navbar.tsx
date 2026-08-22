@@ -45,19 +45,22 @@ export function Navbar({ user, unreadNotifications = 0 }: NavbarProps) {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
         {/* Logo & Institution Name */}
-        <Link href={user ? (user.role === "ADMIN" ? "/admin/dashboard" : user.role === "STAFF" ? "/staff/dashboard" : "/student/dashboard") : "/"} className="flex items-center gap-3">
-          <div className="relative h-11 w-11 flex items-center justify-center rounded-xl bg-white shadow-xs border p-1 shrink-0 overflow-hidden">
+        <Link
+          href={user ? (user.role === "ADMIN" ? "/admin/dashboard" : user.role === "STAFF" ? "/staff/dashboard" : "/student/dashboard") : "/"}
+          className="flex items-center gap-3 group transition-all"
+        >
+          <div className="relative h-12 w-12 flex items-center justify-center rounded-full bg-white shadow-xs border border-border/80 p-0.5 shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
             <img
-              src="/branding/logo.png"
-              alt="Logo UPL"
-              className="object-contain w-full h-full"
+              src="/branding/logo-upl-officiel.png"
+              alt="Logo Officiel UPL"
+              className="object-contain w-full h-full rounded-full"
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-extrabold text-lg leading-tight tracking-tight text-primary">
+            <span className="font-extrabold text-lg leading-tight tracking-tight text-primary group-hover:text-primary/90 transition-colors">
               {UPL_INSTITUTION_CONFIG.appFunctionalName}
             </span>
-            <span className="text-[10px] text-muted-foreground hidden sm:inline-block font-medium">
+            <span className="text-[10.5px] text-muted-foreground hidden sm:inline-block font-semibold tracking-wide">
               {UPL_INSTITUTION_CONFIG.name}
             </span>
           </div>
@@ -94,13 +97,8 @@ export function Navbar({ user, unreadNotifications = 0 }: NavbarProps) {
           ) : (
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" size="sm">
+                <Button size="sm" className="bg-primary text-primary-foreground font-semibold px-4 shadow-xs">
                   Connexion
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm" className="bg-primary text-primary-foreground">
-                  Espace Étudiant
                 </Button>
               </Link>
             </div>
@@ -159,13 +157,8 @@ export function Navbar({ user, unreadNotifications = 0 }: NavbarProps) {
           ) : (
             <div className="space-y-2">
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
-                  Se connecter
-                </Button>
-              </Link>
-              <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full">
-                  Inscription Étudiant UPL
+                <Button className="w-full bg-primary text-primary-foreground font-semibold">
+                  Connexion
                 </Button>
               </Link>
             </div>

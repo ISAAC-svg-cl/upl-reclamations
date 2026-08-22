@@ -13,7 +13,7 @@ datasource db {
 model User {
   id           String    @id @default(uuid())
   email        String    @unique
-  matricule    String?   @unique // Numéro matricule UPL (obligatoire pour étudiants)
+  matricule    String?   // Numéro matricule UPL (ou identifiant de connexion)
   passwordHash String
   firstName    String
   lastName     String

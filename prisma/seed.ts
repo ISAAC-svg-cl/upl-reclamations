@@ -21,11 +21,12 @@ async function main() {
   await prisma.faculty.deleteMany();
   await prisma.service.deleteMany();
 
-  const passwordHashAdmin = await bcrypt.hash("admin123", 10);
-  const passwordHashStaff = await bcrypt.hash("staff123", 10);
+  const passwordHashAdmin = await bcrypt.hash("12345678", 10);
+  const passwordHashStaff = await bcrypt.hash("decanat123", 10);
+  const passwordHashSecretariat = await bcrypt.hash("secretariat123", 10);
   const passwordHashStudent = await bcrypt.hash("etudiant123", 10);
 
-  // 1. Création des Facultés UPL
+  // 1. Création de la Faculté des Sciences Informatiques UPL
   const facultyFSI = await prisma.faculty.create({
     data: {
       name: "Faculté des Sciences Informatiques",
@@ -34,62 +35,31 @@ async function main() {
     },
   });
 
-  const facultyFSE = await prisma.faculty.create({
-    data: {
-      name: "Faculté des Sciences Économiques et de Gestion",
-      code: "FSEG",
-      description: "Gestion Financière, Économie de Développement, Marketing et Management",
-    },
-  });
-
-  const facultyDroit = await prisma.faculty.create({
-    data: {
-      name: "Faculté de Droit",
-      code: "FDROIT",
-      description: "Droit Public, Droit Privé et Judiciaire, Droit des Affaires",
-    },
-  });
-
-  const facultyPoly = await prisma.faculty.create({
-    data: {
-      name: "Faculté Polytechnique",
-      code: "FPOLY",
-      description: "Génie Électrique, Génie Électronique, Génie Civil et Mines",
-    },
-  });
-
-  const facultyTheo = await prisma.faculty.create({
-    data: {
-      name: "Faculté de Théologie Protestante",
-      code: "FTHEO",
-      description: "Théologie Pastorale, Éthique Chrétienne et Leadership",
-    },
-  });
-
-  const facultySIC = await prisma.faculty.create({
-    data: {
-      name: "Faculté des Sciences de l'Information et de la Communication",
-      code: "FSIC",
-      description: "Journalisme, Communication des Organisations et Relations Publiques",
-    },
-  });
-
-  // 2. Création des Départements
-  const deptGLSI = await prisma.department.create({
+  // 2. Création des Départements / Filières FSI
+  const deptGL = await prisma.department.create({
     data: {
       facultyId: facultyFSI.id,
-      name: "Génie Logiciel & Systèmes d'Information",
-      code: "GLSI",
-      description: "Développement web, mobile, architecture logicielle et cloud",
+      name: "Génie Logiciel",
+      code: "GL",
+      description: "Conception, développement logiciel, web, mobile et architectures cloud",
     },
   });
 
-  const deptRT = await prisma.department.create({
+  const deptIA = await prisma.department.create({
     data: {
       facultyId: facultyFSI.id,
-      name: "Réseaux & Télécommunications",
-      code: "RT",
-      description: "Infrastructures réseaux, sécurité et télécoms",
+      name: "Intelligence Artificielle",
+      code: "IA",
+      description: "Machine learning, data science, vision par ordinateur et automatisation",
+    },
+  });
+
+  const deptSI = await prisma.department.create({
+    data: {
+      facultyId: facultyFSI.id,
+      name: "Systèmes & Réseaux / Systèmes Informatiques",
+      code: "SI",
+      description: "Infrastructures réseaux, administration systèmes, sécurité et télécoms",
     },
   });
 
@@ -98,281 +68,98 @@ async function main() {
       facultyId: facultyFSI.id,
       name: "Informatique de Gestion",
       code: "IG",
-      description: "Systèmes d'information d'entreprise et bases de données",
+      description: "Systèmes d'information d'entreprise, bases de données et gestion informatisée",
     },
   });
 
-  const deptGestion = await prisma.department.create({
+  // 3. Programmes UPL
+  const progGL = await prisma.program.create({
     data: {
-      facultyId: facultyFSE.id,
-      name: "Gestion Financière & Comptabilité",
-      code: "GFC",
-      description: "Comptabilité, audit, banque et ingénierie financière",
+      departmentId: deptGL.id,
+      name: "Génie Logiciel",
+      code: "PROG-GL",
     },
   });
 
-  const deptEcon = await prisma.department.create({
+  const progIA = await prisma.program.create({
     data: {
-      facultyId: facultyFSE.id,
-      name: "Économie de Développement",
-      code: "EDEV",
-      description: "Macroéconomie, politiques de développement et statistiques",
+      departmentId: deptIA.id,
+      name: "Intelligence Artificielle",
+      code: "PROG-IA",
     },
   });
 
-  const deptDroitPrive = await prisma.department.create({
+  const progSI = await prisma.program.create({
     data: {
-      facultyId: facultyDroit.id,
-      name: "Droit Privé & Judiciaire",
-      code: "DPJ",
-      description: "Procédure civile, droit pénal et droit des obligations",
-    },
-  });
-
-  const deptDroitPublic = await prisma.department.create({
-    data: {
-      facultyId: facultyDroit.id,
-      name: "Droit Public & International",
-      code: "DPI",
-      description: "Droit constitutionnel, administratif et international",
-    },
-  });
-
-  const deptPoly = await prisma.department.create({
-    data: {
-      facultyId: facultyPoly.id,
-      name: "Génie Appliqué",
-      code: "GAPPL",
-      description: "Tronc commun sciences pour l'ingénieur",
-    },
-  });
-
-  const deptTheo = await prisma.department.create({
-    data: {
-      facultyId: facultyTheo.id,
-      name: "Études Théologiques",
-      code: "ETHEO",
-      description: "Ancien & Nouveau Testament, histoire de l'Église",
-    },
-  });
-
-  const deptSIC = await prisma.department.create({
-    data: {
-      facultyId: facultySIC.id,
-      name: "Communication & Médias",
-      code: "CMED",
-      description: "Presse, audiovisuel et communication digitale",
-    },
-  });
-
-  // 3. Programmes LMD
-  const progInfo = await prisma.program.create({
-    data: {
-      departmentId: deptGLSI.id,
-      name: "Licence en Sciences Informatiques (LMD)",
-      code: "LIC-FSI",
-    },
-  });
-
-  const progRT = await prisma.program.create({
-    data: {
-      departmentId: deptRT.id,
-      name: "Licence Réseaux & Télécoms",
-      code: "LIC-RT",
+      departmentId: deptSI.id,
+      name: "Systèmes & Réseaux / Systèmes Informatiques",
+      code: "PROG-SI",
     },
   });
 
   const progIG = await prisma.program.create({
     data: {
       departmentId: deptIG.id,
-      name: "Licence Informatique de Gestion",
-      code: "LIC-IG",
+      name: "Informatique de Gestion",
+      code: "PROG-IG",
     },
   });
 
-  const progGestion = await prisma.program.create({
-    data: {
-      departmentId: deptGestion.id,
-      name: "Licence en Sciences de Gestion",
-      code: "LIC-GESTION",
-    },
+  // 4. Promotions UPL
+  // Génie Logiciel
+  const promoBAC1GL = await prisma.promotion.create({
+    data: { programId: progGL.id, name: "BAC 1", yearLevel: "BAC 1" },
+  });
+  const promoBAC2GL = await prisma.promotion.create({
+    data: { programId: progGL.id, name: "BAC 2", yearLevel: "BAC 2" },
+  });
+  const promoBAC3GL = await prisma.promotion.create({
+    data: { programId: progGL.id, name: "BAC 3", yearLevel: "BAC 3" },
+  });
+  const promoBAC4GL = await prisma.promotion.create({
+    data: { programId: progGL.id, name: "BAC 4", yearLevel: "BAC 4" },
   });
 
-  const progEcon = await prisma.program.create({
-    data: {
-      departmentId: deptEcon.id,
-      name: "Licence en Économie",
-      code: "LIC-ECON",
-    },
+  // Intelligence Artificielle
+  const promoBAC1IA = await prisma.promotion.create({
+    data: { programId: progIA.id, name: "BAC 1", yearLevel: "BAC 1" },
+  });
+  const promoBAC2IA = await prisma.promotion.create({
+    data: { programId: progIA.id, name: "BAC 2", yearLevel: "BAC 2" },
+  });
+  const promoBAC3IA = await prisma.promotion.create({
+    data: { programId: progIA.id, name: "BAC 3", yearLevel: "BAC 3" },
+  });
+  const promoBAC4IA = await prisma.promotion.create({
+    data: { programId: progIA.id, name: "BAC 4", yearLevel: "BAC 4" },
   });
 
-  const progDroitPrive = await prisma.program.create({
-    data: {
-      departmentId: deptDroitPrive.id,
-      name: "Licence en Droit Privé",
-      code: "LIC-DPJ",
-    },
+  // Systèmes & Réseaux / Systèmes Informatiques
+  const promoBAC1SI = await prisma.promotion.create({
+    data: { programId: progSI.id, name: "BAC 1", yearLevel: "BAC 1" },
+  });
+  const promoBAC2SI = await prisma.promotion.create({
+    data: { programId: progSI.id, name: "BAC 2", yearLevel: "BAC 2" },
+  });
+  const promoBAC3SI = await prisma.promotion.create({
+    data: { programId: progSI.id, name: "BAC 3", yearLevel: "BAC 3" },
+  });
+  const promoBAC4SI = await prisma.promotion.create({
+    data: { programId: progSI.id, name: "BAC 4", yearLevel: "BAC 4" },
   });
 
-  const progDroitPublic = await prisma.program.create({
-    data: {
-      departmentId: deptDroitPublic.id,
-      name: "Licence en Droit Public",
-      code: "LIC-DPI",
-    },
+  // Informatique de Gestion
+  const promoBAC1IG = await prisma.promotion.create({
+    data: { programId: progIG.id, name: "BAC 1", yearLevel: "BAC 1" },
   });
-
-  const progPoly = await prisma.program.create({
-    data: {
-      departmentId: deptPoly.id,
-      name: "Licence Polytechnique",
-      code: "LIC-POLY",
-    },
+  const promoBAC2IG = await prisma.promotion.create({
+    data: { programId: progIG.id, name: "BAC 2", yearLevel: "BAC 2" },
   });
-
-  const progTheo = await prisma.program.create({
-    data: {
-      departmentId: deptTheo.id,
-      name: "Licence en Théologie",
-      code: "LIC-THEO",
-    },
+  const promoBAC3IG = await prisma.promotion.create({
+    data: { programId: progIG.id, name: "BAC 3", yearLevel: "BAC 3" },
   });
-
-  const progSIC = await prisma.program.create({
-    data: {
-      departmentId: deptSIC.id,
-      name: "Licence en Communication",
-      code: "LIC-SIC",
-    },
-  });
-
-  // 4. Promotions / Classes UPL (Filières)
-  const promoL3GLSI = await prisma.promotion.create({
-    data: {
-      programId: progInfo.id,
-      name: "L3 Génie Logiciel & Systèmes d'Information",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL2Info = await prisma.promotion.create({
-    data: {
-      programId: progInfo.id,
-      name: "L2 Informatique Générale",
-      yearLevel: "L2",
-    },
-  });
-
-  const promoL1Info = await prisma.promotion.create({
-    data: {
-      programId: progInfo.id,
-      name: "L1 Informatique (Tronc Commun LMD)",
-      yearLevel: "L1",
-    },
-  });
-
-  const promoM1GLSI = await prisma.promotion.create({
-    data: {
-      programId: progInfo.id,
-      name: "Master 1 Génie Logiciel & Cloud",
-      yearLevel: "M1",
-    },
-  });
-
-  const promoL3RT = await prisma.promotion.create({
-    data: {
-      programId: progRT.id,
-      name: "L3 Réseaux & Télécommunications",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL3IG = await prisma.promotion.create({
-    data: {
-      programId: progIG.id,
-      name: "L3 Informatique de Gestion",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL1FSEG = await prisma.promotion.create({
-    data: {
-      programId: progGestion.id,
-      name: "L1 Économie & Gestion (Tronc Commun)",
-      yearLevel: "L1",
-    },
-  });
-
-  const promoL3GF = await prisma.promotion.create({
-    data: {
-      programId: progGestion.id,
-      name: "L3 Gestion Financière & Comptabilité",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL3ED = await prisma.promotion.create({
-    data: {
-      programId: progEcon.id,
-      name: "L3 Économie de Développement",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL1Droit = await prisma.promotion.create({
-    data: {
-      programId: progDroitPrive.id,
-      name: "L1 Droit (Tronc Commun)",
-      yearLevel: "L1",
-    },
-  });
-
-  const promoL3DPJ = await prisma.promotion.create({
-    data: {
-      programId: progDroitPrive.id,
-      name: "L3 Droit Privé & Judiciaire",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL3DPI = await prisma.promotion.create({
-    data: {
-      programId: progDroitPublic.id,
-      name: "L3 Droit Public & International",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL1Poly = await prisma.promotion.create({
-    data: {
-      programId: progPoly.id,
-      name: "L1 Préparatoire Polytechnique",
-      yearLevel: "L1",
-    },
-  });
-
-  const promoL3Poly = await prisma.promotion.create({
-    data: {
-      programId: progPoly.id,
-      name: "L3 Génie Civil & Mines",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL3Theo = await prisma.promotion.create({
-    data: {
-      programId: progTheo.id,
-      name: "L3 Théologie Pastorale",
-      yearLevel: "L3",
-    },
-  });
-
-  const promoL3SIC = await prisma.promotion.create({
-    data: {
-      programId: progSIC.id,
-      name: "L3 Journalisme & Communication",
-      yearLevel: "L3",
-    },
+  const promoBAC4IG = await prisma.promotion.create({
+    data: { programId: progIG.id, name: "BAC 4", yearLevel: "BAC 4" },
   });
 
   // 5. Services Institutionnels UPL
@@ -468,7 +255,7 @@ async function main() {
   const userAdmin = await prisma.user.create({
     data: {
       email: "admin@upl-rdc.net",
-      matricule: "ADM-001",
+      matricule: "upl@1234",
       firstName: "Admin",
       lastName: "UPL",
       phone: "+243 81 234 5678",
@@ -477,18 +264,33 @@ async function main() {
     },
   });
 
-  // Responsable Décanat FSI
+  // Responsable Décanat FSI : Madame Rose
   const userStaffFSI = await prisma.user.create({
     data: {
       email: "decanat.fsi@upl-rdc.net",
-      matricule: "ENS-FSI-04",
-      firstName: "Prof. Jean-Marc",
-      lastName: "KABILA",
+      matricule: "upl@1234",
+      firstName: "Madame",
+      lastName: "Rose",
       phone: "+243 99 876 5432",
       role: "STAFF",
       serviceId: srvDecanatFSI.id,
       facultyId: facultyFSI.id,
       passwordHash: passwordHashStaff,
+    },
+  });
+
+  // Secrétaire de la Faculté des Sciences Informatiques : Mr Junior
+  const userStaffSecretariat = await prisma.user.create({
+    data: {
+      email: "secretariat.fsi@upl-rdc.net",
+      matricule: "upl@1234",
+      firstName: "Mr",
+      lastName: "Junior",
+      phone: "+243 81 999 8877",
+      role: "STAFF",
+      serviceId: srvDecanatFSI.id,
+      facultyId: facultyFSI.id,
+      passwordHash: passwordHashSecretariat,
     },
   });
 
@@ -506,163 +308,13 @@ async function main() {
     },
   });
 
-  // Étudiant Principal : Edmond NKUNA Isaac (Matricule 2024022105)
-  const userStudentEdmond = await prisma.user.create({
-    data: {
-      email: "edmond.nkuna@etudiant.upl-rdc.net",
-      matricule: "2024022105",
-      firstName: "Edmond Isaac",
-      lastName: "NKUNA",
-      phone: "+243 99 123 4567",
-      role: "STUDENT",
-      passwordHash: passwordHashStudent,
-      studentProfile: {
-        create: {
-          promotionId: promoL3GLSI.id,
-          academicYear: "2025-2026",
-          currentLevel: "L3",
-        },
-      },
-    },
-  });
-
-  // Deuxième étudiante : Grâce MUKENDI
-  const userStudentGrace = await prisma.user.create({
-    data: {
-      email: "grace.mukendi@etudiant.upl-rdc.net",
-      matricule: "2024018892",
-      firstName: "Grâce",
-      lastName: "MUKENDI",
-      phone: "+243 84 555 4433",
-      role: "STUDENT",
-      passwordHash: passwordHashStudent,
-      studentProfile: {
-        create: {
-          promotionId: promoL2Info.id,
-          academicYear: "2025-2026",
-          currentLevel: "L2",
-        },
-      },
-    },
-  });
-
-  // 8. Création de Réclamations Réalistes pour Edmond NKUNA Isaac
-  const comp1 = await prisma.complaint.create({
-    data: {
-      reference: "UPL-REC-2026-000001",
-      subject: "Omission de la note de Conception Orientée Objet & UML (Examen Mi-Session)",
-      description:
-        "Monsieur le Doyen de la Faculté des Sciences Informatiques, lors de la publication des grilles de délibération de la session de mi-parcours, ma note pour l'évaluation de Conception Orientée Objet et UML apparaît comme 'ABS' (Absent) alors que j'ai bel et bien composé, signé la fiche d'émargement et remis ma copie d'examen.",
-      priority: "HIGH",
-      status: "IN_PROGRESS",
-      studentId: userStudentEdmond.id,
-      categoryId: catNotes.id,
-      serviceId: srvDecanatFSI.id,
-      facultyId: facultyFSI.id,
-      departmentId: deptGLSI.id,
-      promotionId: promoL3GLSI.id,
-      history: {
-        create: [
-          {
-            authorId: userStudentEdmond.id,
-            fromStatus: null,
-            toStatus: "NEW",
-            reason: "Dépôt initial de la réclamation académique par l'étudiant Edmond NKUNA Isaac",
-          },
-          {
-            authorId: userStaffFSI.id,
-            fromStatus: "NEW",
-            toStatus: "IN_PROGRESS",
-            reason: "Prise en charge par le Décanat FSI pour vérification des procès-verbaux d'émargement",
-          },
-        ],
-      },
-      responses: {
-        create: [
-          {
-            authorId: userStaffFSI.id,
-            message:
-              "Bonjour cher Edmond NKUNA Isaac. Votre réclamation a bien été reçue par le Décanat FSI. Nous avons ouvert le dossier et nous vérifions actuellement les fiches d'émargement physiques auprès de la chaire d'enseignement.",
-            isInternal: false,
-          },
-        ],
-      },
-    },
-  });
-
-  // Réclamation Frais pour Grâce MUKENDI
-  const comp2 = await prisma.complaint.create({
-    data: {
-      reference: "UPL-REC-2026-000002",
-      subject: "Validation du bordereau de paiement 2ème tranche des frais académiques",
-      description:
-        "Bonjour, j'ai effectué le versement de la deuxième tranche des frais académiques à la banque le 10 février 2026. Cependant, mon statut sur le portail indique toujours des frais en suspens.",
-      priority: "MEDIUM",
-      status: "RESOLVED",
-      studentId: userStudentGrace.id,
-      categoryId: catFrais.id,
-      serviceId: srvFinances.id,
-      facultyId: facultyFSI.id,
-      departmentId: deptGLSI.id,
-      promotionId: promoL2Info.id,
-      history: {
-        create: [
-          {
-            authorId: userStudentGrace.id,
-            fromStatus: null,
-            toStatus: "NEW",
-            reason: "Soumission avec bordereau bancaire",
-          },
-          {
-            authorId: userStaffAcad.id,
-            fromStatus: "NEW",
-            toStatus: "RESOLVED",
-            reason: "Bordereau vérifié et validé auprès de la comptabilité UPL",
-          },
-        ],
-      },
-      responses: {
-        create: [
-          {
-            authorId: userStaffAcad.id,
-            message:
-              "Bonjour Grâce. Votre paiement a été vérifié et apuré auprès de la banque partenaire. Votre statut d'enrôlement est désormais en règle.",
-            isInternal: false,
-          },
-        ],
-      },
-    },
-  });
-
-  // Notifications In-App
-  await prisma.notification.create({
-    data: {
-      userId: userStudentEdmond.id,
-      title: "Réclamation en cours de traitement",
-      message: `Votre réclamation n° ${comp1.reference} a été prise en charge par le Décanat FSI.`,
-      link: `/student/complaints/${comp1.id}`,
-      type: "STATUS_UPDATE",
-    },
-  });
-
-  await prisma.notification.create({
-    data: {
-      userId: userStaffFSI.id,
-      title: "Nouvelle réclamation assignée",
-      message: `Une réclamation urgente (${comp1.reference}) a été soumise par l'étudiant Edmond NKUNA Isaac.`,
-      link: `/staff/complaints/${comp1.id}`,
-      type: "NEW_ASSIGNMENT",
-    },
-  });
-
-  console.log("✅ Peuplement UPL réussi !");
+  console.log("✅ Initialisation de la base de données UPL (Vierge) réussie !");
   console.log("--------------------------------------------------");
-  console.log("👤 Administrateur : admin@upl-rdc.net (admin123)");
-  console.log("👤 Décanat FSI : decanat.fsi@upl-rdc.net (staff123)");
-  console.log("👤 Étudiant Principal : Edmond NKUNA Isaac");
-  console.log("   Matricule : 2024022105");
-  console.log("   Email : edmond.nkuna@etudiant.upl-rdc.net (etudiant123)");
-  console.log("   Promotion : L3 Génie Logiciel & Systèmes d'Information");
+  console.log("👤 Administrateur Système : upl@1234 (12345678) / admin@upl-rdc.net");
+  console.log("👤 Décanat FSI (Madame Rose) : upl@1234 (decanat123) / decanat.fsi@upl-rdc.net");
+  console.log("👤 Secrétaire FSI (Mr Junior) : upl@1234 (secretariat123) / secretariat.fsi@upl-rdc.net");
+  console.log("👤 Secrétariat Académique : STAFF-ACA-02 (decanat123) / sg.acad@upl-rdc.net");
+  console.log("📋 0 Réclamations | 0 Étudiants fictifs (Prêt pour de vraies inscriptions)");
   console.log("--------------------------------------------------");
 }
 

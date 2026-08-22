@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Send, Lock, User, FileText, Download } from "lucide-react";
+import { CannedResponseSelector } from "@/components/complaints/CannedResponseSelector";
 
 interface ResponseItem {
   id: string;
@@ -161,6 +162,14 @@ export function ResponseThread({
         {!isClosed && (
           <form onSubmit={handleSubmit} className="pt-4 border-t space-y-3">
             {error && <p className="text-xs text-destructive font-medium">{error}</p>}
+
+            {currentUser.role !== "STUDENT" && (
+              <CannedResponseSelector
+                onSelect={(template) => {
+                  setMessage((prev) => (prev ? `${prev}\n${template}` : template));
+                }}
+              />
+            )}
 
             <Textarea
               placeholder={

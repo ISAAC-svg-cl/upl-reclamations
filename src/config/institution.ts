@@ -10,6 +10,7 @@ export interface InstitutionalConfig {
   shortName: string;
   appFunctionalName: string;
   tagline: string;
+  motto: string;
   description: string;
   address: {
     street: string;
@@ -56,6 +57,7 @@ export const UPL_INSTITUTION_CONFIG: InstitutionalConfig = {
   shortName: "UPL",
   appFunctionalName: "UPL Réclamations",
   tagline: "Plateforme numérique de gestion et de suivi des réclamations étudiantes",
+  motto: "Vérité et liberté",
   description: "Système institutionnel sécurisé de soumission, d'instruction et de traçabilité des réclamations académiques et administratives à l'UPL.",
   address: {
     street: "2179, Av. 30 Juin Coin Kimbangu",
@@ -89,8 +91,8 @@ export const UPL_INSTITUTION_CONFIG: InstitutionalConfig = {
     primaryColor: "#1E3A8A",   // Bleu institutionnel UPL
     secondaryColor: "#D97706", // Accent doré / ocre
     accentColor: "#059669",    // Vert émeraude validation
-    logoLight: "/branding/logo.png",
-    logoDark: "/branding/logo.png",
-    favicon: "/favicon.ico",
+    logoLight: "/branding/logo-upl-officiel.png",
+    logoDark: "/branding/logo-upl-officiel.png",
+    favicon: "/branding/logo-upl-officiel.png",
   },
 };

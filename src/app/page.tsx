@@ -26,11 +26,11 @@ export default function HomePage() {
           <div className="max-w-3xl mx-auto text-center space-y-6">
             {/* Logo Officiel UPL */}
             <div className="flex justify-center">
-              <div className="relative h-24 w-24 sm:h-28 sm:w-28 p-2 rounded-2xl bg-white shadow-lg border border-border flex items-center justify-center">
+              <div className="relative h-28 w-28 sm:h-32 sm:w-32 p-1 rounded-full bg-white shadow-xl border border-border flex items-center justify-center">
                 <img
-                  src="/branding/logo.png"
+                  src="/branding/logo-upl-officiel.png"
                   alt="Logo officiel UPL"
-                  className="object-contain w-full h-full"
+                  className="object-contain w-full h-full rounded-full drop-shadow-sm"
                 />
               </div>
             </div>
@@ -162,11 +162,11 @@ export default function HomePage() {
             {/* Carte de contact & Localisation */}
             <div id="contact" className="rounded-2xl border bg-card p-6 sm:p-8 shadow-sm space-y-6">
               <div className="flex items-center gap-3">
-                <div className="relative h-12 w-12 rounded-xl bg-white border p-1 shadow-xs shrink-0 flex items-center justify-center overflow-hidden">
+                <div className="relative h-14 w-14 rounded-full bg-white border p-0.5 shadow-xs shrink-0 flex items-center justify-center overflow-hidden">
                   <img
-                    src="/branding/logo.png"
+                    src="/branding/logo-upl-officiel.png"
                     alt="Logo UPL"
-                    className="object-contain w-full h-full"
+                    className="object-contain w-full h-full rounded-full"
                   />
                 </div>
                 <div>

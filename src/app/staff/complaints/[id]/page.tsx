@@ -5,6 +5,8 @@ import { ComplaintService } from "@/services/complaint.service";
 import { AcademicService } from "@/services/academic.service";
 import { StatusBadge } from "@/components/complaints/StatusBadge";
 import { PriorityBadge } from "@/components/complaints/PriorityBadge";
+import { SlaBadge } from "@/components/complaints/SlaBadge";
+import { ComplaintReceiptModal } from "@/components/complaints/ComplaintReceiptModal";
 import { TimelineHistory } from "@/components/complaints/TimelineHistory";
 import { ResponseThread } from "@/components/complaints/ResponseThread";
 import { StatusUpdateDialog } from "@/components/complaints/StatusUpdateDialog";
@@ -47,7 +49,7 @@ export default async function StaffComplaintDetailPage({
             </Button>
           </Link>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono text-sm font-black text-primary">
                 {complaint.reference}
               </span>
@@ -55,14 +57,21 @@ export default async function StaffComplaintDetailPage({
               <span className="text-xs font-semibold text-muted-foreground">
                 {complaint.category.name}
               </span>
+              <SlaBadge
+                createdAt={complaint.createdAt}
+                slaDays={complaint.category.slaDays}
+                status={complaint.status}
+                resolvedAt={complaint.resolvedAt}
+              />
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-foreground">
+            <h1 className="text-xl sm:text-2xl font-black text-foreground mt-0.5">
               {complaint.subject}
             </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <ComplaintReceiptModal complaint={complaint as any} />
           <PriorityBadge priority={complaint.priority} />
           <StatusBadge status={complaint.status} />
         </div>
