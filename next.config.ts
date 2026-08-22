@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  outputFileTracingIncludes: {
+    "/**": ["./prisma/dev.db", "./prisma/schema.prisma"],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",

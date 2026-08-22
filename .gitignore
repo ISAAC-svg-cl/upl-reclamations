@@ -36,6 +36,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# prisma SQLite local file if any
-*.db
+# prisma SQLite local file
 *.db-journal
+*.db
+!prisma/dev.db
